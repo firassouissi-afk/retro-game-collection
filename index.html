@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><title>Retro Arcade</title>
+<style>body{margin:0;background:#09090b;color:white;font-family:monospace;text-align:center}.game{display:inline-block;margin-top:15px}.score{font-size:20px;color:#22c55e}.credit{position:fixed;bottom:8px;width:100%;color:#a1a1aa;font-size:11px}.credit a{color:#4ade80}canvas{border:3px solid #22c55e;background:#111827}button{background:#16a34a;color:white;border:0;padding:8px;border-radius:5px}</style>
+<h1>STDG Retro Arcade</h1><button onclick="start()">Start Snake</button><div class="game"><div class="score" id="score">0</div><canvas id="c" width="400" height="400"></canvas></div><div class="credit">Website developed by <a href="https://www.linkedin.com/company/souissi-technologies-development-group/home/">SOUISSI Technologies Development Group (STDG)</a><br>A Development Bureau for AI-Driven IT Projects. From Web Technologies to Autonomous Drones.</div>
+<script>
+const c=document.querySelector('#c'),x=c.getContext('2d'),size=20;let s=[[10,10]],f=[15,15],d=[1,0],timer,points=0;
+function draw(){x.clearRect(0,0,400,400);x.fillStyle='#22c55e';s.forEach(p=>x.fillRect(p[0]*size,p[1]*size,size-2,size-2));x.fillStyle='#ef4444';x.fillRect(f[0]*size,f[1]*size,size-2,size-2)}
+function start(){clearInterval(timer);points=0;s=[[10,10]];d=[1,0];timer=setInterval(()=>{const h=[s[0][0]+d[0],s[0][1]+d[1]];if(h[0]<0||h[1]<0||h[0]>=20||h[1]>=20||s.some(p=>p[0]==h[0]&&p[1]==h[1])){clearInterval(timer);return} s.unshift(h);if(h[0]==f[0]&&h[1]==f[1]){points++;score.textContent=points;f=[Math.floor(Math.random()*20),Math.floor(Math.random()*20)]}else s.pop();draw()},110)}
+addEventListener('keydown',e=>{if(e.key=='ArrowUp'&&d[1]!=1)d=[0,-1];if(e.key=='ArrowDown'&&d[1]!=-1)d=[0,1];if(e.key=='ArrowLeft'&&d[0]!=1)d=[-1,0];if(e.key=='ArrowRight'&&d[0]!=-1)d=[1,0]});draw();
+localStorage.setItem('stdg-retro-high-score','Best: '+(points||0));
+</script>
